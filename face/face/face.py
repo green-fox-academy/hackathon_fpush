@@ -13,16 +13,9 @@ def create_connection(db_file):
  
     return None
 
-def create_table(conn, create_table_sql):
-    try:
-        c = conn.cursor()
-        c.execute(create_table_sql)
-    except Error as e:
-        print(e)
-
 def create_user(conn, user):
-    sql = ''' INSERT INTO legal_people(login_name,password,name,face_id)
-              VALUES(?,?,?,?) '''
+    sql = ''' INSERT INTO legal_people(login_name,password,name,user_or_admin,face_id)
+              VALUES(?,?,?,?,?) '''
     cur = conn.cursor()
     cur.execute(sql, user)
     return cur.lastrowid
@@ -32,36 +25,14 @@ def select_image_by_id(conn, user_name):
     cur.execute("SELECT password, name, face_id FROM legal_people WHERE login_name=?", (user_name,))
     identification_data = cur.fetchall()
     return identification_data
+
+def download_database(conn):
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM legal_people")
+    print(cur.fetchall())
+
+database = "C:/GREENFOX/hackathon_fpush/database/authentication.db"
  
-
-database = "C:/GREENFOX/gfa_hack_fpush/database/authentication.db"
- 
-sql_create_table = """ CREATE TABLE IF NOT EXISTS legal_people (
-                                row_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                login_name TEXT NOT NULL,
-                                password INT NOT NULL,
-                                name TEXT NOT NULL,
-                                face_id TEXT NOT NULL
-                            ); """
-  
-user1 = ('Gyuri', random.randint(100000, 999999), 'Gyorgy Kardos', 'C:/GREENFOX/megalotis-garnet/img/readme_imgs/gy_kardos.jpg')
-user2 = ('Adam', random.randint(100000, 999999), 'Adam Kudar', 'C:/GREENFOX/megalotis-garnet/img/readme_imgs/a_kudar.jpg')
-user3 = ('Snocc', random.randint(100000, 999999), 'Istvan Schneider', 'C:/GREENFOX/megalotis-garnet/img/readme_imgs/i_schneider.jpg')
-user4 = ('Boro', random.randint(100000, 999999), 'Borbala Szakacs', 'C:/GREENFOX/megalotis-garnet/img/readme_imgs/b_szakacs.jpg')
-
-conn = create_connection(database)
-if conn is not None:
-    create_table(conn, sql_create_table)
-else:
-    print("Error! cannot create the database connection.")
-
-#conn = create_connection(database)
-#with conn:
-    #create_user(conn, user1)
-    #create_user(conn, user2)
-    #create_user(conn, user3)
-    #create_user(conn, user4)
-
 username = None
 password = None
 sqlUsername = None
@@ -103,9 +74,13 @@ while(True):
 match = face.compare_faces(user_face_to_find, face_encodings[0], tolerance = 0.50)
 
 if match[0]:
-    print("Face autenthication passed")
+    print("Face authentication passed")
 else:
     print("Face does not match authorized person")
 
+conn = create_connection(database)
+download_database(conn)
+ 
+cv.waitKey()
 cap.release()
 cv.destroyAllWindows()
