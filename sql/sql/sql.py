@@ -24,14 +24,7 @@ def create_user(conn, user):
     cur.execute(sql, user)
     return cur.lastrowid
 
-def select_image_by_id(conn, user_name):
-    cur = conn.cursor()
-    cur.execute("SELECT password, name, face_id FROM legal_people WHERE login_name=?", (user_name,))
-    identification_data = cur.fetchall()
-    return identification_data
- 
-
-database = "C:/GREENFOX/hackathon_fpush/database/authentication.db"
+database = "C:/database/authentication.db"
  
 sql_create_table = """ CREATE TABLE IF NOT EXISTS legal_people (
                                 row_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,13 +35,13 @@ sql_create_table = """ CREATE TABLE IF NOT EXISTS legal_people (
                                 face_id TEXT NOT NULL
                             ); """
   
-user1 = ('Gyuri', random.randint(100000, 999999), 'Gyorgy Kardos', 'admin', 'C:/GREENFOX/megalotis-garnet/img/readme_imgs/gy_kardos.jpg')
-user2 = ('Adam', random.randint(100000, 999999), 'Adam Kudar', 'admin', 'C:/GREENFOX/megalotis-garnet/img/readme_imgs/a_kudar.jpg')
-user3 = ('Snocc', random.randint(100000, 999999), 'Istvan Schneider', 'admin', 'C:/GREENFOX/megalotis-garnet/img/readme_imgs/i_schneider.jpg')
-user4 = ('Boro', random.randint(100000, 999999), 'Borbala Szakacs', 'admin','C:/GREENFOX/megalotis-garnet/img/readme_imgs/b_szakacs.jpg')
-user5 = ('Zoli', random.randint(100000, 999999), 'Zoltan Egri', 'user', 'C:/GREENFOX/megalotis-garnet/img/readme_imgs/z_egri.jpg')
-user6 = ('Benji', random.randint(100000, 999999), 'Gabor Bengyel', 'user', 'C:/GREENFOX/megalotis-garnet/img/readme_imgs/g_bengyel.jpg')
-user7 = ('Peti', random.randint(100000, 999999), 'Peter Rozsnyai', 'user','C:/GREENFOX/megalotis-garnet/img/readme_imgs/p_rozsnyai.jpg')
+user1 = ('Gyuri', random.randint(100000, 999999), 'Gyorgy Kardos', 'admin', '../../user_images/gy_kardos.jpg')
+user2 = ('Adam', random.randint(100000, 999999), 'Adam Kudar', 'admin', '../../user_images/a_kudar.jpg')
+user3 = ('Snocc', random.randint(100000, 999999), 'Istvan Schneider', 'admin', '../../user_images/i_schneider.jpg')
+user4 = ('Boro', random.randint(100000, 999999), 'Borbala Szakacs', 'admin','../../user_images/b_szakacs.jpg')
+user5 = ('Zoli', random.randint(100000, 999999), 'Zoltan Egri', 'user', '../../user_images/z_egri.jpg')
+user6 = ('Benji', random.randint(100000, 999999), 'Gabor Bengyel', 'user', '../../user_images/g_bengyel.jpg')
+user7 = ('Peti', random.randint(100000, 999999), 'Peter Rozsnyai', 'user','../../user_images/p_rozsnyai.jpg')
 
 conn = create_connection(database)
 if conn is not None:
