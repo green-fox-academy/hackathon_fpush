@@ -22,7 +22,7 @@ def create_user(conn, user):
 
 def select_image_by_id(conn, user_name):
     cur = conn.cursor()
-    cur.execute("SELECT password, name, user_or_admin, face_id, finger_id FROM legal_people WHERE login_name=?", (user_name,))
+    cur.execute("SELECT password, name, user_or_admin, face_id FROM legal_people WHERE login_name=?", (user_name,))
     identification_data = cur.fetchall()
     return identification_data
 
