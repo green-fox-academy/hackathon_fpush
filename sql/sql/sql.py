@@ -1,5 +1,6 @@
 import sqlite3, random, getpass
 from sqlite3 import Error
+import os
 
 def create_connection(db_file):
     try:
@@ -23,7 +24,10 @@ def create_user(conn, user):
     cur = conn.cursor()
     cur.execute(sql, user)
     return cur.lastrowid
-
+	
+	
+if not os.path.exists('C:/database/'):
+    os.makedirs('C:/database/')
 database = "C:/database/authentication.db"
  
 sql_create_table = """ CREATE TABLE IF NOT EXISTS legal_people (
